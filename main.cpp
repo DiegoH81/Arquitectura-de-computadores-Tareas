@@ -166,7 +166,6 @@ private:
 			move_right(A, Q, c);
 			if (c == 1)
 				c = 0;
-			//std::cout << A << " - " << Q << " - " << c << " Q: " << Q[0] << "\n";
 		}
 
 		for (int index = 0; index < Q.size(); index++)
@@ -206,16 +205,10 @@ private:
 
 	int get_exponent(std::bitset<46> bits) //MULTIPLICANDO
 	{
-		int pos{ -1 };
-		for (int index = 45; index >= 0; index--)
-		{
-			if (bits[index] == 1)
-			{
-				pos = 45 - index - 1;
-				break;
-			}
-		}
-		return pos;
+		if (bits[45] == 1)
+			return 1;
+		else
+			return 0;
 	}
 	int get_limit (std::bitset<46> bits) //MULTIPLICANDO
 	{
@@ -314,8 +307,9 @@ public:
 				sign_final = 1;
 			if ((in_num1 < 0) && (in_num2 < 0))
 				sign_final = 0;
-			
-			biased_exponent_final = adder(temp_exponent, get_int_bits(get_exponent(temp_significand)));;
+
+
+			biased_exponent_final = adder(temp_exponent, get_int_bits(get_exponent(temp_significand)));
 			significand_final = normalize_numbers(temp_significand, temp_exponent_limit);	
 		}
 	}
@@ -329,6 +323,8 @@ public:
 			std::cin >> input_1;
 			std::cout << "Ingrese el segundo numero: ";
 			std::cin >> input_2;
+			if ((input_1 > 255 || input_2 > 255) || ((input_1 < -255 || input_2 < -255)))
+				std::cout << "Numeros invalidos!\n";
 		} while ((input_1 > 255 || input_2 > 255) || ((input_1 < -255 || input_2 < -255)));
 		algorithm(input_1, input_2);
 
